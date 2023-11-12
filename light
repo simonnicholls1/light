@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# ASCII Art for 'LIGHT'
+LIGHT_ART="
+██╗     ██╗ ██████╗ ██╗  ██╗████████╗
+██║     ██║██╔════╝ ██║  ██║╚══██╔══╝
+██║     ██║██║  ███ ███████║   ██║
+██║     ██║██║   ██ ██╔══██║   ██║
+███████╗██║╚██████╔ ██║  ██║   ██║
+╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝
+"
+
+# Function to Display Help
+function display_help {
+    echo "$LIGHT_ART"
+    echo "LIGHT - Financial Data Processing Toolkit"
+    echo ""
+    echo "Usage: light <command> [arguments]"
+    echo ""
+    echo "Commands:"
+    echo "  add       Perform addition of columns"
+    echo "  mom       Calculate momentum"
+    echo "  ...       Other commands as per your implementation"
+    echo ""
+    echo "For more information on a specific command, type: light <command> --help"
+}
+
+# Check if at least one argument is provided
+if [ $# -eq 0 ] || [ "$1" = "--help" ]; then
+    display_help
+    exit 0
+fi
+
+# Extract the command and forward all arguments
+COMMAND=$1
+shift
+
+# Pass stdin to the Python module along with the command and arguments
+python -m light_module."$COMMAND" "$@"
