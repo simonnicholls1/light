@@ -5,7 +5,6 @@ import sys
 def calculate_signal(df):
     return df.applymap(lambda x: 1 if x > 0 else -1)
 
-def main(args):
-    df = pd.read_csv(sys.stdin)
+def main(df):
     result = calculate_signal(df)
-    result.to_csv(sys.stdout, index=False)
+    result.to_csv(sys.stdout, index=True)

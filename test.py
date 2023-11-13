@@ -13,6 +13,6 @@ if __name__ == "__main__":
         simulated_stdin = io.StringIO(file.read())
 
     # Pass the simulated stdin and command line arguments to main
-    sys.argv = ['light', 'mom 252']
+    sys.argv = ['light', 'after 2019-01-01| mom 252| signal']
     sys.stdin = simulated_stdin
     main()

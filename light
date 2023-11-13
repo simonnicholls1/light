@@ -31,9 +31,8 @@ if [ $# -eq 0 ] || [ "$1" = "--help" ]; then
     exit 0
 fi
 
-# Extract the command and forward all arguments
-COMMAND=$1
-shift
+# Join all arguments into a single string
+COMMAND_STRING="$*"
 
-# Pass stdin to the Python module along with the command and arguments
-python -m light_module."$COMMAND" "$@"
+# Pass the command string to the Python module's main entry point
+python -m light_module "$COMMAND_STRING"

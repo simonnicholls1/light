@@ -14,14 +14,14 @@ def calculate_momentum(df, lookback_period):
     momentum = df.pct_change(periods=lookback_period)
     return momentum
 
-def main(df, args):
-    lookback_period = int(args[0])
+def main(df, lookback):
+    lookback_period = int(lookback)
     # df = get_from_stack()
     if df is None:
         raise ValueError("No data available in the stack for momentum calculation.")
     result = calculate_momentum(df, lookback_period)
     push_to_stack(result)  # Push the result onto the stack
-    result.to_csv(sys.stdout, index=False)  # Optional: output the result
+    result.to_csv(sys.stdout, index=True)  # Optional: output the result
 
 if __name__ == "__main__":
     import sys

@@ -5,8 +5,7 @@ import sys
 def before_date(df, date):
     return df[df.index < pd.to_datetime(date)]
 
-def main(args):
-    date = args[0]
-    df = pd.read_csv(sys.stdin, parse_dates=True, index_col=0)
+def main(df, date):
+    date = pd.to_datetime(date)
     result = before_date(df, date)
-    result.to_csv(sys.stdout, index=False)
+    result.to_csv(sys.stdout, index=True)

@@ -1,18 +1,23 @@
 from .stack_manager import push_to_stack, get_from_stack
-from . import after, before, mom  # Import other processing modules
+from . import after, before, mom, cgrep, signal  # Import other processing modules
 
 def execute_command(command, args):
     df = get_from_stack()
     if command == 'after':
-        result = after.process(df, *args)
+        after.main(df, *args)
     elif command == 'before':
-        result = before.process(df, *args)
+        before.main(df, *args)
     elif command == 'mom':
-        result = mom.main(df, args)
+        mom.main(df, *args)
+    elif command == 'cgrep':
+        cgrep.main(df, *args)
+    elif command =='signal':
+        signal.main(df)
+    elif command =='scalevol':
+        signal.main(df, *args)
     # ... other commands
     else:
         raise ValueError(f"Unknown command: {command}")
-    push_to_stack(result)
 
 def process_commands(command_string):
     commands = command_string.split('|')
