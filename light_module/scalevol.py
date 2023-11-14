@@ -1,6 +1,6 @@
 # light/vol_scale.py
 from math import sqrt
-
+from stack_manager import get_from_stack_pos
 import pandas as pd
 import sys
 
