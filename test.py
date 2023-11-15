@@ -13,6 +13,8 @@ if __name__ == "__main__":
         simulated_stdin = io.StringIO(file.read())
 
     # Pass the simulated stdin and command line arguments to main
-    sys.argv = ['light', 'after 2019-01-01| mom 252| signal']
+    # unit curve -> uc -> dlog - dlog
+    # ur - unit returns
+    sys.argv = ['light', 'ffill|dlog| save dlog.csv | wmom 252 1 | signal |shift 0|-> s | load dlog.csv | unitscale 250 0.01 |mult s| ewa| cumsum 1']
     sys.stdin = simulated_stdin
     main()

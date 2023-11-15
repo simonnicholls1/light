@@ -2,10 +2,15 @@
 import pandas as pd
 import sys
 
-def cumulative_sum(df):
-    return df.cumsum()
+def cumulative_sum(df, start_number):
+    if isinstance(df, pd.DataFrame):
+        df.iloc[0] += start_number
+    else:  # it's a Series
+        df.iloc[0] += start_number
+    # Calculate cumulative sum
+    cumsum_df = df.cumsum()
+    return cumsum_df
 
-def main(args):
-    df = pd.read_csv(sys.stdin)
-    result = cumulative_sum(df)
-    result.to_csv(sys.stdout, index=False)
+
+def main(df, start_number):
+    return cumulative_sum(df, start_number)
