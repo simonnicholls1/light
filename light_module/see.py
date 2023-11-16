@@ -1,8 +1,8 @@
 import pandas as pd
 
 # Example structure for the 'load' command
-def ffill(df):
+def see(df):
     return df.ffill()
 
 def main(df):
-    return ffill(df)
+    return see(df)

@@ -7,4 +7,4 @@ def equally_weighted_average(df):
 
 def main(df):
     result = equally_weighted_average(df)
-    return result[~result.isna()]
+    return result.dropna()

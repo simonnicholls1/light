@@ -1,7 +1,9 @@
 import pandas as pd
 
 import sys
-from . import after, before, wmom, cgrep, signal, dlog, unitscale, mult, save, load, ffill, ewa, cumsum, shift  # Import other processing modules
+from . import after, before, wmom, cgrep, signal, dlog, \
+    unitscale, mult, save, load, ffill, ewa, cumsum, \
+    shift, plot
 
 vars = {}
 current_df = None
@@ -14,7 +16,7 @@ def execute_command(df, command, args):
     elif command == 'wmom':
         result = wmom.main(df, *args)
     elif command == 'cgrep':
-        result = cgrep.main(df)
+        result = cgrep.main(df, args)
     elif command =='signal':
         result = signal.main(df)
     elif command =='unitscale':
@@ -45,6 +47,8 @@ def execute_command(df, command, args):
     elif command == 'shift':
         period = int(args[0])
         result = shift.main(df, period)
+    elif command == 'plot':
+        result = plot.main(df)
     else:
         raise ValueError(f"Unknown command: {command}")
 
@@ -63,9 +67,8 @@ def process_commands(command_string):
 
 def initial_load():
     initial_data = pd.read_csv(sys.stdin)
-    initial_data['DATETIME'] = pd.to_datetime(initial_data['DATETIME'])
-    initial_data = initial_data.groupby(initial_data['DATETIME'].dt.date).last()
-    initial_data['DATE'] = initial_data['DATETIME'].dt.date
-    initial_data.drop(["DATETIME"], axis=1, inplace=True)
-    initial_data.set_index('DATE', inplace=True)
+    initial_data['DATE'] = pd.to_datetime(initial_data['DATE'])
+    initial_data = initial_data.groupby(initial_data['DATE'].dt.date).last()
+    initial_data['DATE'] = initial_data['DATE'].dt.date
+    initial_data.set_index('DATE', inplace=True, drop=True)
     return initial_data
