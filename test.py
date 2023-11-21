@@ -7,7 +7,7 @@ if __name__ == "__main__":
     # Path to your CSV file
     current_file_path = os.path.abspath(__file__)
     project_directory = os.path.dirname(current_file_path)
-    csv_file_path = f"{project_directory}/light_module/data/ALL_FUTURES.csv"
+    csv_file_path = f"{project_directory}/light_module/data/equities/VIX.csv"
     with open(csv_file_path, 'r') as file:
         # Simulate stdin using io.StringIO
         simulated_stdin = io.StringIO(file.read())
@@ -16,6 +16,9 @@ if __name__ == "__main__":
     # unit curve -> uc -> dlog - dlog
     # ur - unit returns
     # sys.argv = ['light', 'after 2000-03-02|ffill|dlog| save dlog.csv | wmom 252 1 | signal |shift 1|-> s | load dlog.csv | unitscale 250 0.01 |mult s| ewa| cumsum 1']
-    sys.argv = ['light', 'cgrep SP500 US2|after 2000-03-02|ffill|dlog|save dlog.csv|wmom 252 1|signal|shift 0|-> s|load dlog.csv|unitscale 250 0.01|mult s|cumsum 1|plot']
+    # sys.argv = ['light', 'cgrep US2|after 2000-03-02|ffill|dlog|save dlog.csv|'
+    #                 'wmom 250 1|signal|shift 0|-> s|load dlog.csv|unitscale 250 0.01|'
+    #                 'mult s|cumsum 1|plot']
+    sys.argv = ['light', 'save prices.csv|ffill|dlog|-> s|load prices.csv|signallimit 20 40 1|shift 0|mult s|cumsum 1|plot']
     sys.stdin = simulated_stdin
     main()

@@ -3,10 +3,11 @@ import pandas as pd
 import sys
 from . import after, before, wmom, cgrep, signal, dlog, \
     unitscale, mult, save, load, ffill, ewa, cumsum, \
-    shift, plot
+    shift, plot, signal_limits
 
 vars = {}
 current_df = None
+
 
 def execute_command(df, command, args):
     if command == 'after':
@@ -17,15 +18,15 @@ def execute_command(df, command, args):
         result = wmom.main(df, *args)
     elif command == 'cgrep':
         result = cgrep.main(df, args)
-    elif command =='signal':
+    elif command == 'signal':
         result = signal.main(df)
-    elif command =='unitscale':
+    elif command == 'unitscale':
         window_size = int(args[0])
         target_vol = float(args[1])
         result = unitscale.main(df, window_size, target_vol)
-    elif command =='dlog':
+    elif command == 'dlog':
         result = dlog.main(df)
-    elif command =='mult':
+    elif command == 'mult':
         df2 = vars[args[0]]
         result = mult.main(df, df2)
     elif command == 'load':
@@ -49,6 +50,11 @@ def execute_command(df, command, args):
         result = shift.main(df, period)
     elif command == 'plot':
         result = plot.main(df)
+    elif command == 'signallimit':
+        buy_level = float(args[0])
+        sell_level = float(args[1])
+        no_hold_days = float(args[2])
+        result = signal_limits.main(df, buy_level, sell_level, no_hold_days)
     else:
         raise ValueError(f"Unknown command: {command}")
 
@@ -65,10 +71,13 @@ def process_commands(command_string):
         current_df = result
     current_df.to_csv(sys.stdout, index=True)
 
+
 def initial_load():
     initial_data = pd.read_csv(sys.stdin)
     initial_data['DATE'] = pd.to_datetime(initial_data['DATE'])
     initial_data = initial_data.groupby(initial_data['DATE'].dt.date).last()
     initial_data['DATE'] = initial_data['DATE'].dt.date
     initial_data.set_index('DATE', inplace=True, drop=True)
+    if isinstance(initial_data, pd.Series):
+        initial_data = initial_data.to_frame()
     return initial_data
