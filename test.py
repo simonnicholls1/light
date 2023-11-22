@@ -19,6 +19,6 @@ if __name__ == "__main__":
     # sys.argv = ['light', 'cgrep US2|after 2000-03-02|ffill|dlog|save dlog.csv|'
     #                 'wmom 250 1|signal|shift 0|-> s|load dlog.csv|unitscale 250 0.01|'
     #                 'mult s|cumsum 1|plot']
-    sys.argv = ['light', 'save prices.csv|ffill|dlog|-> s|load prices.csv|signallimit 20 40 1|shift 0|mult s|cumsum 1|plot']
+    sys.argv = ['light', 'save prices.csv|ffill|dlog|-> s|load prices.csv|signallimit 20 40 1|shift 2|mult s|cumsum 1|plot']
     sys.stdin = simulated_stdin
     main()
